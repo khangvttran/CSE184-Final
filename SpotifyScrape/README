@@ -1,0 +1,1 @@
+spotScrape has method getDuration that accepts an artist, album, and song and returns the song's duration in milliseconds using the Spotify API and Spotipy library (duration of album to be added).  Test1 tests a single song, test2 reads csvpassed as first argument and outputs dataFrame with new duration field. randomSongs.csv included for use with test2
