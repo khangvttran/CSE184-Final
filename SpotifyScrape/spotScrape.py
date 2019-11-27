@@ -76,7 +76,7 @@ def getDurationWithoutAlbum(art, sng):
 		for track in the_album['tracks']['items']:
 			if track['name'] == song:
 				return (dict({"album" : str(the_album['name']), "duration" : track['duration_ms']}))
-	return None
+	return (dict({"album" : None, "duration" : None}))
 	
 
 #	if the_album == None:
