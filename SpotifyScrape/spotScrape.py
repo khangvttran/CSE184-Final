@@ -47,3 +47,45 @@ def getDuration(art, albm, sng):
 	return None
 
 
+def getDurationWithoutAlbum(art, sng):
+	client_id = "9792c6bb2e6540acaaa115d2136fc9fd"
+	client_secret = "81fa55c01dd94bd1b8129c602f8eefb6"
+	client_credentials_manager = SpotifyClientCredentials(client_id = client_id, client_secret = client_secret)
+	#spotipy object to get spotify data
+	sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager) 
+
+	#All strings:
+	artist = art
+	song = sng
+
+	#get artist metadata
+	artist_data = sp.search(artist)
+	
+	##TODO: Error handling if artist is not found
+	#uri of artist
+	artist_uri = artist_data['tracks']['items'][0]['artists'][0]['uri']
+	#list of (simplified) album objects
+	sp_albums = sp.artist_albums(artist_uri)
+	#the album we're currently iterating through
+	the_album = None
+	#search for song in list of (full) album objects
+	for album_Obj in sp_albums['items']:
+		#grab full album obj to search for list of songs
+		the_album = sp.album(album_Obj['uri'])
+		#check each song on each album to see if it's a match
+		for track in the_album['tracks']['items']:
+			if track['name'] == song:
+				return (dict({"album" : str(the_album['name']), "duration" : track['duration_ms']}))
+	return (dict({"album" : None, "duration" : None}))
+	
+
+#	if the_album == None:
+#		#return None if albums is not found
+#		return None
+#	#get the (full) album object using uri from (simplified) object
+#	the_album_full = sp.album(the_album['uri'])
+#	#match string of passed song with name of song inside paging object containing album object
+#	for track in the_album_full['tracks']['items']:
+#		if track['name'] == song:
+#			return track['duration_ms']
+#	return None
