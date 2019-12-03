@@ -20,7 +20,7 @@ except:
 	print("csv not found... quitting")
 	exit()
 #
-#raw_df['features'] = [spotScrape.getDurationWithoutAlbum(artist, song) for (artist, song) in zip(raw_df['Artist'], raw_df['Song'])]
+#raw_df['features'] = [spotScrape.songFeatures(artist, song) for (artist, song) in zip(raw_df['Artist'], raw_df['Song'])]
 #print(raw_df)
 cols = ['Song', 'Artist', 'Album', 'Duration(ms)', 'Key', 'Modality', 'Time Signature' , 'Acousticness', 'Danceability', 'Energy', 'Instrumentalness', 'Liveness', 'Loudness', 'Speechiness', 'Valence', 'Tempo' ]
 scraped_df = pd.DataFrame(columns = cols) 
@@ -28,9 +28,10 @@ print("\nScraped DataFrame intitalized: \n")
 print(scraped_df)
 print()
 
-frames = [spotScrape.getDurationWithoutAlbum(artist, song) for artist, song in zip(raw_df['Artist'], raw_df['Song'])]
+frames = [spotScrape.songFeatures(artist, song) for artist, song in zip(raw_df['Artist'], raw_df['Song'])]
 new_df = pd.DataFrame(frames)
 print(new_df)
+sv_csv = new_df.to_csv('topTwentyFive_2005_processed.csv')
 
 print("--- %s seconds ---" % (time.time() - start_time))
 
@@ -67,11 +68,11 @@ df['Tempo'] = None
 
 print(df)
 
-df.append(spotScrape.getDurationWithoutAlbum(artist, song))
+df.append(spotScrape.songFeatures(artist, song))
 
 
 for row in numArr:
-	duration.append(spotScrape.getDurationWithoutAlbum(row[0], row[2])['duration'])
+	duration.append(spotScrape.songFeatures(row[0], row[2])['duration'])
 	request_count += 1
 	#random delay
 	if request_count % 5 == 0:

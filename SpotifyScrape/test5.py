@@ -1,15 +1,8 @@
 import spotScrape
 
-artist = "Radiohead"
-song = "Creep"
+artist = "Sean Paul"
+song = "Temperature"
 
-print("Creep by Radiohead:\n")
+print("Temperature by Sean Paul:\n")
 print(spotScrape.getDurationWithoutAlbum(artist, song))
 
-
-
-artist = "Car Seat Headrest"
-song = "Something Soon"
-
-print("something Soon by CSH:\n")
-print(spotScrape.getDurationWithoutAlbum(artist, song))
