@@ -8,8 +8,8 @@ print(spotScrape.getDurationWithoutAlbum(artist, song))
 
 
 
-artist = "Car Seat Headrest"
-song = "Something Soon"
+artist = "rihanna"
+song = "SOS"
 
-print("something Soon by CSH:\n")
+print("SOS by Rihanna:\n")
 print(spotScrape.getDurationWithoutAlbum(artist, song))
