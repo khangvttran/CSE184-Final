@@ -32,20 +32,10 @@ for index, row in album_data.iterrows():
 		artist = artist.replace('$', 's')
 	if '\'' in artist:
 		artist = artist.replace('\'', '')
-
-	
-	#if '(' in song:
-	#	songspl = song.split('(')
-	#	song = songspl[0]
-	#if '\'' in song:
-	#	song = song.replace('\'', '')
 	
 	try:
 		results = sp.search(q='album:' + album + ' artist:' + artist, type='album')
-		#print(results)
 		album_id = results['albums']['items'][0]['id']
-		#print(album + " by " + artist+ ", id: " + str(album_id))
-		#number_of_tracks = len(results['tracks']['items'])
 		songs = sp.album_tracks(album_id)
 		song_count = 0
 		album_duration = 0
@@ -54,12 +44,12 @@ for index, row in album_data.iterrows():
 			album_duration += song['duration_ms']
 
 		# data = {'Rank': [rank], 'Album': [album], 'Artist': [artist], 'Year': [year]}
-		data = {'Artist': [artist], 'Album': [song], 'Year' : [year], 'album_duration(ms)': [album_duration], 'number_of_tracks' : [song_count] }
+		data = {'Artist': [artist], 'Album': [album], 'Year' : [year], 'album_duration(ms)': [album_duration], 'number_of_tracks' : [song_count] }
 		dfRow = pd.DataFrame(data, columns=columns)
 		df = pd.concat([df, dfRow], ignore_index=True)
 		print(album + ' by ' + artist + ' added!')
 	except:
-		print(album + ' by ' + artist + 'Not found!')
+		print(album + ' by ' + artist + ' Not found!')
 		continue
 
 	# try:
