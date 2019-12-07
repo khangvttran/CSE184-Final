@@ -10,7 +10,7 @@ client_secret = "81fa55c01dd94bd1b8129c602f8eefb6"
 client_credentials_manager = SpotifyClientCredentials(client_id = client_id, client_secret = client_secret)
 #spotipy object to get spotify data
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager) 
-columns = ['Artist', 'Song', 'Duration(ms)', 'Year', 'danceability', 'energy', 'key', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo', 'uri']
+columns = ['Artist', 'Song', 'Duration(ms)', 'Year', 'Genre', 'danceability', 'energy', 'key', 'loudness', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo', 'explicit', 'uri']
 df = pd.DataFrame(columns=columns)
 top100 = pd.read_csv('topGenres.csv')
 for index, row in top100.iterrows():
@@ -18,6 +18,7 @@ for index, row in top100.iterrows():
 	song = row['Song']
 	artist = row['Artist']
 	year = row['Year']
+	genre = row['Genre']
 	if 'Featuring' in artist:
 		artistSpl = artist.split('Featuring')
 		artist = artistSpl[0]
@@ -37,6 +38,7 @@ for index, row in top100.iterrows():
 	try:
 		results = sp.search(q='artist:' + artist + ' track:' + song, type='track')
 		id = results['tracks']['items'][0]['id']
+		explicit = results['tracks']['items'][0]['explicit']
 		audiofeat = sp.audio_features(id)
 		duration = audiofeat[0]['duration_ms']
 		danceability = audiofeat[0]['danceability']
@@ -50,7 +52,7 @@ for index, row in top100.iterrows():
 		tempo = audiofeat[0]['tempo']
 		key = audiofeat[0]['key']
 		uri = audiofeat[0]['uri']
-		data = {'Artist': [artist], 'Song': [song], 'Duration(ms)' : [duration], 'Year': [year], 'danceability' : [danceability], 'energy' : [energy], 'key': [key], 'loudness': [loudness], 'speechiness': [speechiness], 'acousticness': [acousticness], 'instrumentalness': [instrumentalness], 'liveness': [liveness], 'valence': [valence], 'tempo': [tempo], 'uri': [uri] }
+		data = {'Artist': [artist], 'Song': [song], 'Duration(ms)' : [duration], 'Year': [year], 'Genre': [genre], 'danceability' : [danceability], 'energy' : [energy], 'key': [key], 'loudness': [loudness], 'speechiness': [speechiness], 'acousticness': [acousticness], 'instrumentalness': [instrumentalness], 'liveness': [liveness], 'valence': [valence], 'tempo': [tempo], 'explicit': [explicit], 'uri': [uri] }
 		dfRow = pd.DataFrame(data, columns=columns)
 		df = pd.concat([df, dfRow], ignore_index=True)
 		print(song + ' by ' + artist + ' added!')
