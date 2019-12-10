@@ -5,8 +5,8 @@ import time
 import random
 from spotipy.oauth2 import SpotifyClientCredentials
 
-client_id = "9792c6bb2e6540acaaa115d2136fc9fd"
-client_secret = "81fa55c01dd94bd1b8129c602f8eefb6"
+client_id = ""
+client_secret = ""
 client_credentials_manager = SpotifyClientCredentials(client_id = client_id, client_secret = client_secret)
 #spotipy object to get spotify data
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)  #authenticate token
